@@ -1,10 +1,11 @@
 #include "mainwindow.h"
-#include "./ui_mainwindow.h"
+#include "./assets/ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+    // this -> showFullScreen();
     ui->setupUi(this);
 }
 
