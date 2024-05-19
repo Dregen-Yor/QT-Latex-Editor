@@ -8,5 +8,5 @@ install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/theme DESTINATION ${CMAKE_CURRENT_
 
 
 # add_library(${PROJECT_NAME} SHARED ${DIR_LIB_SRCS})
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Network KF6::SyntaxHighlighting ${QSCINTILLA_LIBRARY})
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Network ${QSCINTILLA_LIBRARY} ${KF6DEP})
 qt_finalize_executable(${PROJECT_NAME})

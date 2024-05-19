@@ -18,6 +18,10 @@
 #include<QMessageBox>
 #include <QStatusBar>
 #include<QDir>
+#include <KTextEditor/Document>
+#include <KTextEditor/Editor>
+#include <KTextEditor/View>
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
