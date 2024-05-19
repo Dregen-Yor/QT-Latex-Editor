@@ -1,10 +1,12 @@
-file(GLOB_RECURSE DIR_LIB_SRCS "*.cpp" "*.h" "*.ui" ".qrc" "*.qss" )
+file(GLOB_RECURSE DIR_LIB_SRCS "*.cpp" "*.h" "*.ui" ".qrc" "*.hpp" )
+list(APPEND DIR_LIB_SRCS ../application.qrc)
 install(FILES dark_red.qss DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-message(${DIR_LIB_SRCS})
 qt_add_executable(${PROJECT_NAME} MANUAL_FINALIZATION ${DIR_LIB_SRCS})
 # # 将theme目录安装到构建目录
 message(${CMAKE_CURRENT_BINARY_DIR})
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/theme DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
+
 # add_library(${PROJECT_NAME} SHARED ${DIR_LIB_SRCS})
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Network)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Network KF6::SyntaxHighlighting ${QSCINTILLA_LIBRARY})
 qt_finalize_executable(${PROJECT_NAME})
