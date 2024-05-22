@@ -15,15 +15,22 @@ int main(int argc, char* argv[]) {
         i18n("(c) 2024-2025 The Kate Authors"),
         // use the other text field to get our mascot into the about dialog
         QStringLiteral(
-            "<img height=\"362\" width=\"512\"/>"),
+            "<img height=\"362\" width=\"512\" />"),
         QStringLiteral("https://kate-editor.org"));
-    
     aboutData.setOrganizationDomain(QByteArray("kde.org"));
     aboutData.setProductName(QByteArray("KFTex"));
     QApplication a(argc, argv);
     KAboutData::setApplicationData(aboutData);
     KLocalizedString::setApplicationDomain(QByteArrayLiteral("KFTEX"));
+
+    QDir::addSearchPath("icon", QDir::currentPath() + "/src/theme");
+    QFile file(":/src/dark_red.qss");
+    file.open(QFile::ReadOnly);
+    QString styleSheet{file.readAll()};
+
     KFTEXMainWindow w;
+    
+    // w.setStyleSheet(styleSheet);
     w.showMaximized();
     return a.exec();
 }
