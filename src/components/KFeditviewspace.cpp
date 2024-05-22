@@ -1,19 +1,27 @@
 #include "KFeditviewspace.h"
 
 KFTabWidget::KFTabWidget(QWidget *parent,KFViewManager *manager, KTextEditor::Editor *editor):QTabWidget(parent){
-    m_manager=std::shared_ptr<KFViewManager>(manager);
+    this->setTabsClosable(true);
+    this->tabBar()->setTabButton(0,QTabBar::RightSide,nullptr);
+    m_manager=manager;
     m_editor=editor;
     QWidget *welcomeTab = new QWidget();
-    QVBoxLayout *layout = new QVBoxLayout(welcomeTab);
+    // QVBoxLayout *layout = new QVBoxLayout(welcomeTab);
     QLabel *label = new QLabel("Welcome to KFTabWidget!", welcomeTab);
-    layout->addWidget(label);
+    welcomeTab->setLayout(new QVBoxLayout);
+    welcomeTab->layout()->addWidget(label);
+    welcomeTab->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     this->addTab(welcomeTab,"Welcome");
-    // setObjectName(QString::fromLatin1(name));
+
+    KTextEditor::Document *doc = m_editor->createDocument(this);
+    // if(doc){
+    //     createView(doc,QString("Untitled"));
+    // }
 }
 KFTabWidget::~KFTabWidget() =default;
 
 KTextEditor::View *KFTabWidget::createView(KTextEditor::Document *doc,QString name){
-    KTextEditor::View *view=doc->createView(this);
+    KTextEditor::View *view=doc->createView(this,this->m_manager->mainwindow()->wrapper());
     this->addTab(view,name);
     return view;
 }
@@ -38,7 +46,9 @@ void KFTabWidget::saveFile(){
     }
 }
 void KFTabWidget::openFile(){
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),QDir::currentPath());
+    qDebug()<<"open file";
+    QString fileName = QFileDialog::getOpenFileName(this->m_manager->mainwindow(), i18n("Open File"),QDir::currentPath());
+    qDebug()<<"success";
     QFileInfo fileInfo(fileName);
     if (!fileName.isEmpty()) {
         KTextEditor::Document *doc = m_editor->createDocument(this);
@@ -51,7 +61,7 @@ void KFTabWidget::openFile(){
 }
 void KFTabWidget::newFile() {
     // 打开文件保存对话框
-    QString fileName = QFileDialog::getSaveFileName(this, tr("New File"), QDir::currentPath());
+    QString fileName = QFileDialog::getSaveFileName(this->m_manager->mainwindow(), tr("New File"), QDir::currentPath());
 
     if (!fileName.isEmpty()) {
         // 创建一个新的文档
@@ -73,4 +83,7 @@ void KFTabWidget::tabChanged(){
     // if(doc){
     //     m_manager->setDocument(doc);
     // }
+}
+void KFTabWidget::on_tabWidget_tabCloseRequested(int index){
+    this->removeTab(index);
 }

@@ -11,6 +11,8 @@
 #include <QString>
 #include <QUrl>
 #include <QFileInfo>
+#include <QDebug>   
+#include <QTabBar>
 #include "KFviewmanager.h"
 class KFTEXMainWindow;
 class KFViewManager;
@@ -23,13 +25,14 @@ public:
     KTextEditor::View *getactiveTab();  
     KTextEditor::Document *getDocumentFromView(KTextEditor::View *view);
 private:
-    std::shared_ptr<KFViewManager> m_manager;
+    KFViewManager *m_manager;
     KTextEditor::Editor *m_editor;
-private slots:
+public slots:
     void tabChanged();
     void addMath(QString txt);
     void saveFile();
     void openFile();
     void newFile();
+    void on_tabWidget_tabCloseRequested(int index);
 };
 #endif

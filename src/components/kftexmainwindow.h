@@ -1,51 +1,61 @@
 #ifndef KFTEXMAINWINDOW_H
 #define KFTEXMAINWINDOW_H
-#include "kftexmdi.h"
-#include <KTextEditor/MainWindow>
-#include <KTextEditor/Editor>
-#include <KStandardAction>
 #include <KActionCollection>
 #include <KActionMenu>
+#include <KLocalizedString>
+#include <KParts/MainWindow>
+#include <KStandardAction>
+#include <KTextEditor/Editor>
+#include <KTextEditor/MainWindow>
+#include <KTextEditor/Plugin>
+#include <QDomDocument>
+#include <QEvent>
+#include <QFrame>
+#include <QKeySequence>
+#include <QMenu>
+#include <QMenuBar>
+#include <QPointer>
+#include <QSplitter>
+#include <QStackedWidget>
+#include <QToolBar>
+#include <QVBoxLayout>
+#include <QWidget>
 #include "KFviewmanager.h"
 class KFViewManager;
-
-class KFTEXMainWindow : public KFMDI::MainWindow, virtual public KParts::PartBase{
+class MainWindow;
+class KFTEXMainWindow : public KParts::MainWindow,
+                        virtual public KParts::PartBase {
     Q_OBJECT
 
-public:
-    KFTEXMainWindow();
+   public:
+    explicit KFTEXMainWindow(QWidget* parent = nullptr);
     ~KFTEXMainWindow() override;
-    std::shared_ptr<KFViewManager> viewManager()
-    {
-        return m_viewManager;
-    }
 
-    KTextEditor::MainWindow *wrapper()
-    {
-        return m_wrapper;
-    }
+    KTextEditor::MainWindow* wrapper() { return m_wrapper; }
+    KFViewManager* viewManager();
+    QFrame* centralWidget() const;
 
-private:
-    KTextEditor::MainWindow *m_wrapper;
-    std::shared_ptr<KActionMenu> documentOpenWith = nullptr;
-    bool m_modNotification = false;
+   private:
+    KTextEditor::MainWindow* m_wrapper;
+    KActionMenu* documentOpenWith = nullptr;
 
-    /**
-     * Shutdown Kate after last file is closed
-     */
-    bool m_modCloseAfterLast = false;
+    QFrame* m_centralWidget;
 
+    KFViewManager* m_viewManager = nullptr;
     /**
      * keeps track of views
      */
-    std::shared_ptr<KFViewManager> m_viewManager = nullptr;
-    KTextEditor::Editor *m_editor = nullptr;
-private:
+    void setupMenu();
+    QMenu* m_fileMenu;
+    QMenu* m_runMenu;
+    QMenu* m_AboutMenu;
+    KTextEditor::Editor* m_editor = nullptr;
+   private:
     void setupMainWindow();
     void setupActions();
-    // void toggleShowMenuBar();
-public:
-    KTextEditor::Editor *getEditor();
+
+   public:
+    KTextEditor::Editor* getEditor();
 };
 
 #endif
