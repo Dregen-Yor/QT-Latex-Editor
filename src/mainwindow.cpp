@@ -15,7 +15,9 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     tabwidget->tabBar()->setTabButton(0, QTabBar::RightSide, nullptr);
     createAction();
     createMenu();
-
+    // editor_=std::shared_ptr<KTextEditor::Editor>(KTextEditor::Editor::instance());
+    // auto doc = editor_->createDocument(tabwidget.get());
+    // auto view = doc->createView(this);
     editor[0] = std::make_shared<QsciScintilla>();
     filename[0] = std::make_shared<QString>();
     init(editor[0]);
@@ -49,13 +51,15 @@ void MainWindow::init(std::shared_ptr<QsciScintilla> textedit) {
     textedit->setMarginWidth(0, 50);          // 设置页边宽度
 }
 void MainWindow::open() {
-    std::shared_ptr<QFileDialog> dialog = std::make_shared<QFileDialog>(this);
-    dialog->setDirectory(QDir::currentPath());
-    dialog->open();
-    QString fileName = dialog->selectedFiles().first();
-    if (!fileName.isEmpty()) {
-        loadFile(fileName);
-    }
+    QUrl startUrl = QUrl::fromLocalFile(QDir::currentPath());
+    // QFileDialog::getOpenFileUrls(this, tr("Open File"), startUrl);
+    // std::shared_ptr<QFileDialog> dialog = std::make_shared<QFileDialog>(this);
+    // dialog->setDirectory(QDir::currentPath());
+    // dialog->open();
+    // QString fileName = dialog->selectedFiles().first();
+    // if (!fileName.isEmpty()) {
+    //     loadFile(fileName);
+    // }
 }
 bool MainWindow::save() {
     if (currentFile.isEmpty()) {

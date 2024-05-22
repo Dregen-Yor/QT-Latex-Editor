@@ -43,6 +43,7 @@ private:
     std::shared_ptr<QMenu> menuFile, menuHelp,menuTool, menuEdit;
     std::shared_ptr<QAction> actionSave, actionRun, actionOpen, actionUpload, actionDownload;
     std::shared_ptr<QAction> actionNew, actionCopy, actionPaste, actionAbout;
+    std::shared_ptr<KTextEditor::Editor> editor_;
     QString currentFile;
     int cnt=0;
 private slots:

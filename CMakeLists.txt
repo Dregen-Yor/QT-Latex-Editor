@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.29)
 
-project(KDTEX VERSION 0.1 LANGUAGES CXX)
+project(KFTEX VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
@@ -30,8 +30,8 @@ find_package(KF6 ${KF5_DEP_VERSION}
         DocTools
 )
 set(KF6DEP KF6::I18n KF6::CoreAddons KF6::GuiAddons KF6::Crash KF6::IconThemes KF6::TextEditor)
-find_package(QT NAMES Qt6 COMPONENTS Widgets Network REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Network REQUIRED)
+find_package(QT NAMES Qt6 COMPONENTS Widgets Network Pdf PdfWidgets REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Network Pdf PdfWidgets REQUIRED)
 message("Qt version: ${Qt6Core_VERSION}")
 
 add_subdirectory(src)
