@@ -46,14 +46,14 @@ void KFTabWidget::saveFile(){
     }
 }
 void KFTabWidget::openFile(){
-    qDebug()<<"open file";
     QString fileName = QFileDialog::getOpenFileName(this->m_manager->mainwindow(), i18n("Open File"),QDir::currentPath());
-    qDebug()<<"success";
     QFileInfo fileInfo(fileName);
+
     if (!fileName.isEmpty()) {
         KTextEditor::Document *doc = m_editor->createDocument(this);
         if (doc) {
-            QUrl fileUrl = QUrl::fromLocalFile(fileInfo.absolutePath());
+            QUrl fileUrl = QUrl::fromLocalFile(fileInfo.absolutePath()+"/"+fileInfo.fileName());
+            qDebug()<<fileName;
             doc->openUrl(fileUrl);
             createView(doc,fileInfo.fileName());
         }

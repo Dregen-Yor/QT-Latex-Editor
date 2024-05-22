@@ -5,12 +5,14 @@ KFViewManager::KFViewManager(QWidget *parent,KFTEXMainWindow *parentW):QSplitter
 {
     m_mainwindow=parentW;
     this->addWidget(m_tabWidget);
+    this->showPdf(QString("/home/Dregen_Yor/code/higher-design/QT-Latex-Editor/build/src/QT6guide.pdf"));
 }
 KFViewManager::~KFViewManager()=default;
 
-void KFViewManager::showPdf(QFile *file){
+void KFViewManager::showPdf(QString file){
     if(!m_pdfView){
         m_pdfView=new QPdfView();
+        m_pdfView->setPageMode(QPdfView::PageMode::MultiPage);
         this->addWidget(m_pdfView);
         connect(m_pdfView,&QPdfView::close,this,&KFViewManager::closePdf);
     }

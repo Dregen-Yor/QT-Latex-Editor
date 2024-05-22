@@ -4,6 +4,7 @@
 #include <QLabel>
 #include <QPdfDocument>
 #include <QPdfView>
+#include <QString>
 #include <QSplitter>
 #include "KFeditviewspace.h"
 #include "kftexmainwindow.h"
@@ -17,7 +18,7 @@ class KFViewManager : public QSplitter {
     KFTabWidget* tab() { return m_tabWidget; }
     KFTEXMainWindow* mainwindow() { return m_mainwindow; }
    private slots:
-    void showPdf(QFile* file);
+    void showPdf(QString file);
     void closePdf();
 
    private:

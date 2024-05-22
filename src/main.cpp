@@ -17,18 +17,12 @@ int main(int argc, char* argv[]) {
         QStringLiteral(
             "<img height=\"362\" width=\"512\"/>"),
         QStringLiteral("https://kate-editor.org"));
+    
     aboutData.setOrganizationDomain(QByteArray("kde.org"));
     aboutData.setProductName(QByteArray("KFTex"));
     QApplication a(argc, argv);
     KAboutData::setApplicationData(aboutData);
     KLocalizedString::setApplicationDomain(QByteArrayLiteral("KFTEX"));
-
-    QDir::addSearchPath("icon", QDir::currentPath() + "/src/theme");
-    QFile file(":/src/dark_red.qss");
-    file.open(QFile::ReadOnly);
-    QString styleSheet{file.readAll()};
-    a.setStyleSheet(styleSheet);
-
     KFTEXMainWindow w;
     w.showMaximized();
     return a.exec();

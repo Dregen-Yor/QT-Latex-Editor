@@ -45,7 +45,6 @@ void KFTEXMainWindow::setupActions(){
     a=actionCollection()
         ->addAction(KStandardAction::Save, QStringLiteral("file_save"), m_viewManager->tab(), &KFTabWidget::saveFile);
     a->setWhatsThis(i18n("Save the current tex file"));
-    a->setShortcut(QKeySequence::Save);
     
 }
 
