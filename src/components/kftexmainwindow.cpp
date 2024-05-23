@@ -13,6 +13,7 @@ KFTEXMainWindow::KFTEXMainWindow(QWidget* parent )
     setupMenu();
 }
 
+
 void KFTEXMainWindow::setupMainWindow(){
     m_centralWidget = new QFrame(this);
     QVBoxLayout *vlayout =new QVBoxLayout(m_centralWidget);
@@ -22,7 +23,10 @@ void KFTEXMainWindow::setupMainWindow(){
     m_viewManager =new KFViewManager(m_centralWidget, this);
     // m_viewManager->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     vlayout->addWidget(m_viewManager);
-
+    m_fileOpenRecent=KStandardAction::openRecent(m_viewManager->tab(),[this](const QUrl &url) {
+            m_viewManager->tab()->openRecent(url);
+        },
+        this);
     m_centralWidget->setLayout(vlayout);
     this->setCentralWidget(m_centralWidget);
 }
@@ -45,6 +49,11 @@ void KFTEXMainWindow::setupActions(){
     a=actionCollection()
         ->addAction(KStandardAction::Save, QStringLiteral("file_save"), m_viewManager->tab(), &KFTabWidget::saveFile);
     a->setWhatsThis(i18n("Save the current tex file"));
+
+    a=actionCollection()
+        ->addAction(KStandardAction::Close,QStringLiteral("pdf_close"),m_viewManager,&KFViewManager::closePdf);
+    a->setWhatsThis(i18n("close the pdf preview"));
+
     
 }
 
@@ -53,6 +62,8 @@ void KFTEXMainWindow::setupMenu(){
     m_fileMenu->addAction(actionCollection()->action(QStringLiteral("file_new")));
     m_fileMenu->addAction(actionCollection()->action(QStringLiteral("file_open")));
     m_fileMenu->addAction(actionCollection()->action(QStringLiteral("file_save")));
+    m_fileMenu->addAction(actionCollection()->action(QStringLiteral("pdf_close")));
+    m_fileMenu->addAction(m_fileOpenRecent);
 }
 KFTEXMainWindow::~KFTEXMainWindow()=default;
 
@@ -62,4 +73,10 @@ KFViewManager *KFTEXMainWindow::viewManager(){
 
 QFrame *KFTEXMainWindow::centralWidget() const{
     return m_centralWidget;
+}
+void KFTEXMainWindow::addRecentOpenedFile(const QUrl &url){
+    if (url.isEmpty()) {
+        return;
+    }
+    m_fileOpenRecent->addUrl(url);
 }

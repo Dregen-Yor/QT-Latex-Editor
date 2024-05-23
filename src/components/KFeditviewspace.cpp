@@ -3,6 +3,7 @@
 KFTabWidget::KFTabWidget(QWidget *parent,KFViewManager *manager, KTextEditor::Editor *editor):QTabWidget(parent){
     this->setTabsClosable(true);
     this->tabBar()->setTabButton(0,QTabBar::RightSide,nullptr);
+    connect(this,&QTabWidget::tabCloseRequested,this,&KFTabWidget::on_tabWidget_tabCloseRequested);
     m_manager=manager;
     m_editor=editor;
     QWidget *welcomeTab = new QWidget();
@@ -55,6 +56,7 @@ void KFTabWidget::openFile(){
             QUrl fileUrl = QUrl::fromLocalFile(fileInfo.absolutePath()+"/"+fileInfo.fileName());
             qDebug()<<fileName;
             doc->openUrl(fileUrl);
+            m_manager->mainwindow()->addRecentOpenedFile(fileUrl);
             createView(doc,fileInfo.fileName());
         }
     }
@@ -71,7 +73,7 @@ void KFTabWidget::newFile() {
             // 保存文档为新文件
             QUrl fileUrl = QUrl::fromLocalFile(fileName);
             doc->saveAs(fileUrl);
-
+            m_manager->mainwindow()->addRecentOpenedFile(fileUrl);
             // 创建一个新的视图
             createView(doc, QFileInfo(fileName).fileName());
         }
@@ -86,4 +88,11 @@ void KFTabWidget::tabChanged(){
 }
 void KFTabWidget::on_tabWidget_tabCloseRequested(int index){
     this->removeTab(index);
+}
+void KFTabWidget::openRecent(QUrl url){
+    KTextEditor::Document *doc = m_editor->createDocument(this);
+    if(doc){
+        doc->openUrl(url);
+        createView(doc,url.fileName());
+    }
 }

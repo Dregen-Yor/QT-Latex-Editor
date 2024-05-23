@@ -10,19 +10,21 @@ KFViewManager::KFViewManager(QWidget *parent,KFTEXMainWindow *parentW):QSplitter
 KFViewManager::~KFViewManager()=default;
 
 void KFViewManager::showPdf(QString file){
-    if(!m_pdfView){
-        m_pdfView=new QPdfView();
-        m_pdfView->setPageMode(QPdfView::PageMode::MultiPage);
-        this->addWidget(m_pdfView);
-        connect(m_pdfView,&QPdfView::close,this,&KFViewManager::closePdf);
-    }
     m_doc=new QPdfDocument();
     m_doc->load(file);
+    if(!m_pdfView){
+        m_pdfView=new KFpdfview(this,m_doc);
+        m_pdfView->setPageMode(QPdfView::PageMode::MultiPage);
+        this->addWidget(m_pdfView);
+        m_pMenuRD=new QMenu(m_pdfView);
+    }
+    
     m_pdfView->setDocument(m_doc);
 }
 void KFViewManager::closePdf(){
     if(m_pdfView){
-        disconnect(m_pdfView,&QPdfView::close,this,&KFViewManager::closePdf);
+        // disconnect(m_pdfView,&QPdfView::close,this,&KFViewManager::closePdf);
+        delete(m_pdfView);
         m_pdfView=nullptr;
     }
 }

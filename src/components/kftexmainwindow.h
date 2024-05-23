@@ -34,6 +34,7 @@ class KFTEXMainWindow : public KParts::MainWindow,
     KTextEditor::MainWindow* wrapper() { return m_wrapper; }
     KFViewManager* viewManager();
     QFrame* centralWidget() const;
+    void addRecentOpenedFile(const QUrl &url);
 
    private:
     KTextEditor::MainWindow* m_wrapper;
@@ -42,9 +43,7 @@ class KFTEXMainWindow : public KParts::MainWindow,
     QFrame* m_centralWidget;
 
     KFViewManager* m_viewManager = nullptr;
-    /**
-     * keeps track of views
-     */
+    KRecentFilesAction *m_fileOpenRecent = nullptr;
     void setupMenu();
     QMenu* m_fileMenu;
     QMenu* m_runMenu;

@@ -34,5 +34,6 @@ public slots:
     void openFile();
     void newFile();
     void on_tabWidget_tabCloseRequested(int index);
+    void openRecent(QUrl url);
 };
 #endif
