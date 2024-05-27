@@ -15,7 +15,7 @@ public:
     ~KFpdfview();
 public:
     virtual void mousePressEvent(QMouseEvent *event)override;
-
+    
 private:
     QMenu *m_pMenuRD;
 };

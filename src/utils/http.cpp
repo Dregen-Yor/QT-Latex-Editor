@@ -3,24 +3,23 @@
 #include <QJsonObject>
 #include <QStringDecoder>
 #include <QObject>
+// #include <glog/logging.h>
 
 HttpOperate::HttpOperate(){}
 
-void HttpOperate::PostRequest(){
+void HttpOperate::PostRequest(QByteArray data,QUrl url){
     m_NetworkManager = std::make_shared<QNetworkAccessManager>();
     QNetworkRequest request;
-    request.setUrl(QUrl("https://api.github.com/"));
+    request.setUrl(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader,"application/json");
     request.setAttribute(QNetworkRequest::Attribute::Http2AllowedAttribute, true);
-    QJsonDocument document;
-    QByteArray _postData = document.toJson(QJsonDocument::Compact);
-    m_Reply = m_NetworkManager->post(request,_postData);
+    m_Reply = m_NetworkManager->post(request,data);
     connect(m_Reply,&QNetworkReply::finished,this,&HttpOperate::ReplyFinshed);
 }
-void HttpOperate::GetRequest(){
+void HttpOperate::GetRequest(QByteArray data,QUrl url){
     m_NetworkManager = std::make_shared<QNetworkAccessManager>();
     QNetworkRequest request;
-    request.setUrl(QUrl("https://api.github.com/"));
+    request.setUrl(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader,"application/json");
     request.setAttribute(QNetworkRequest::Attribute::Http2AllowedAttribute, true);
     QJsonDocument document;
@@ -42,4 +41,5 @@ void HttpOperate::ReplyFinshed()
         qDebug()<<"error ==> "<<m_Reply->error();
     }
     m_Reply->deleteLater();
+    delete this;
 }

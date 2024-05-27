@@ -1,5 +1,6 @@
 #include "KFeditviewspace.h"
-
+#include <iostream>
+class HttpOperate;
 KFTabWidget::KFTabWidget(QWidget *parent,KFViewManager *manager, KTextEditor::Editor *editor):QTabWidget(parent){
     this->setTabsClosable(true);
     this->tabBar()->setTabButton(0,QTabBar::RightSide,nullptr);
@@ -26,21 +27,24 @@ KTextEditor::View *KFTabWidget::createView(KTextEditor::Document *doc,QString na
     this->addTab(view,name);
     return view;
 }
-KTextEditor::View *KFTabWidget::getactiveTab(){
-    return dynamic_cast<KTextEditor::View*>(this->currentWidget());
+QWidget *KFTabWidget::getactiveTab(){
+    return this->currentWidget();
 }
+
 KTextEditor::Document *KFTabWidget::getDocumentFromView(KTextEditor::View *view) {
     return view ? view->document() : nullptr;
 }
 void KFTabWidget::addMath(QString txt){
-    KTextEditor::View *view=getactiveTab();
+    QWidget *widget=getactiveTab();
+    KTextEditor::View *view=dynamic_cast<KTextEditor::View*>(widget);
     KTextEditor::Document *doc=getDocumentFromView(view);
     if(doc){
         doc->insertText(view->cursorPosition(),txt);
     }
 }
 void KFTabWidget::saveFile(){
-    KTextEditor::View *view=getactiveTab();
+    QWidget *widget=getactiveTab();
+    KTextEditor::View *view=dynamic_cast<KTextEditor::View*>(widget);
     KTextEditor::Document *doc=getDocumentFromView(view);
     if(doc){
         doc->save();
@@ -95,4 +99,28 @@ void KFTabWidget::openRecent(QUrl url){
         doc->openUrl(url);
         createView(doc,url.fileName());
     }
+}
+void KFTabWidget::sendFile(){
+    QWidget *widget=getactiveTab();
+    if(!(qobject_cast<KTextEditor::View*>(widget))){
+        LOG(WARNING)<<"请选择一个编辑器视图";
+        return;
+    }
+    KTextEditor::View *v=dynamic_cast<KTextEditor::View*>(widget);
+    KTextEditor::Document *doc = getDocumentFromView(v);
+    QUrl fileUrl = doc->url();
+    QFile file=QFile(fileUrl.toLocalFile());
+    if(!file.open(QIODevice::ReadOnly)){
+        qWarning() << "Failed to open file:" << fileUrl;
+        return;
+    }
+    QByteArray filecontent= file.readAll();
+    file.close();
+    QJsonObject json ;
+    json["filename"]=QFileInfo(file).baseName();
+    json["filedata"]=QString(filecontent);
+    QByteArray jsonData=QJsonDocument(json).toJson();
+    qDebug()<<QString(filecontent);
+    HttpOperate *request =new HttpOperate();
+    request->PostRequest(jsonData,QUrl("http://127.0.0.1:1503/compile"));
 }

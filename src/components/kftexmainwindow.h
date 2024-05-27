@@ -21,6 +21,7 @@
 #include <QVBoxLayout>
 #include <QWidget>
 #include "KFviewmanager.h"
+#include <glog/logging.h>
 class KFViewManager;
 class MainWindow;
 class KFTEXMainWindow : public KParts::MainWindow,

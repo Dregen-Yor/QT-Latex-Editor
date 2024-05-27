@@ -11,8 +11,15 @@
 #include <QString>
 #include <QUrl>
 #include <QFileInfo>
+#include <QFile>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QDebug>   
 #include <QTabBar>
+#include <QStringLiteral>
+#include "../utils/http.h"
+#include <KTextEditor/Plugin>
+#include <QWidget>
 #include "KFviewmanager.h"
 class KFTEXMainWindow;
 class KFViewManager;
@@ -22,7 +29,7 @@ public:
     KFTabWidget(QWidget *parent,KFViewManager *manager,KTextEditor::Editor *editor);
     ~KFTabWidget() override;
     KTextEditor::View *createView(KTextEditor::Document *doc,QString name);
-    KTextEditor::View *getactiveTab();  
+    QWidget *getactiveTab();  
     KTextEditor::Document *getDocumentFromView(KTextEditor::View *view);
 private:
     KFViewManager *m_manager;
@@ -35,5 +42,6 @@ public slots:
     void newFile();
     void on_tabWidget_tabCloseRequested(int index);
     void openRecent(QUrl url);
+    void sendFile();
 };
 #endif

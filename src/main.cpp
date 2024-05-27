@@ -8,7 +8,10 @@
 #include <QString>
 #include "components/kftexmainwindow.h"
 
+#include <glog/logging.h>
+
 int main(int argc, char* argv[]) {
+    google::InitGoogleLogging(argv[0]);
     KAboutData aboutData(
         QStringLiteral("KFTex"), i18n("KFTex"), QStringLiteral("0.1.0"),
         i18n("KFTex - Text Editor"), KAboutLicense::LGPL_V2,
@@ -19,18 +22,16 @@ int main(int argc, char* argv[]) {
         QStringLiteral("https://kate-editor.org"));
     aboutData.setOrganizationDomain(QByteArray("kde.org"));
     aboutData.setProductName(QByteArray("KFTex"));
+    aboutData.addAuthor(i18n("孙更欣"), i18n("Maintainer"), QStringLiteral("202322460126@mail.sdu.edu.cn"), QStringLiteral("https://cullmann.io"));
     QApplication a(argc, argv);
     KAboutData::setApplicationData(aboutData);
     KLocalizedString::setApplicationDomain(QByteArrayLiteral("KFTEX"));
 
-    QDir::addSearchPath("icon", QDir::currentPath() + "/src/theme");
-    QFile file(":/src/dark_red.qss");
-    file.open(QFile::ReadOnly);
-    QString styleSheet{file.readAll()};
 
     KFTEXMainWindow w;
     
     // w.setStyleSheet(styleSheet);
     w.showMaximized();
+    google::ShutdownGoogleLogging();
     return a.exec();
 }

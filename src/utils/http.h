@@ -9,8 +9,8 @@ class HttpOperate:public QObject{
     Q_OBJECT
 public:
     HttpOperate();
-    void PostRequest();
-    void GetRequest();
+    void PostRequest(QByteArray data,QUrl url);
+    void GetRequest(QByteArray data,QUrl url);
 private:
     std::shared_ptr<QNetworkAccessManager> m_NetworkManager;
     QNetworkReply* m_Reply;

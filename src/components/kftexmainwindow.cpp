@@ -54,6 +54,17 @@ void KFTEXMainWindow::setupActions(){
         ->addAction(KStandardAction::Close,QStringLiteral("pdf_close"),m_viewManager,&KFViewManager::closePdf);
     a->setWhatsThis(i18n("close the pdf preview"));
 
+    a=actionCollection()
+        ->addAction(KStandardAction::Clear,QStringLiteral("pdf_run"),m_viewManager->tab(),&KFTabWidget::sendFile);
+    a->setWhatsThis(i18n("Send tex to the serve and open it"));
+
+    a=actionCollection()
+        ->addAction(KStandardAction::AboutApp,QStringLiteral("about_app"),this);
+    a->setWhatsThis(i18n("The infomation about this app"));
+
+    a=actionCollection()
+        ->addAction(KStandardAction::AboutKDE,QStringLiteral("about_KDE"),this);
+    a->setWhatsThis(i18n("The information about KDE"));
     
 }
 
@@ -64,6 +75,8 @@ void KFTEXMainWindow::setupMenu(){
     m_fileMenu->addAction(actionCollection()->action(QStringLiteral("file_save")));
     m_fileMenu->addAction(actionCollection()->action(QStringLiteral("pdf_close")));
     m_fileMenu->addAction(m_fileOpenRecent);
+    m_runMenu=this->menuBar()->addMenu(i18n("Run"));
+    m_runMenu->addAction(actionCollection()->action(QStringLiteral("pdf_run")));
 }
 KFTEXMainWindow::~KFTEXMainWindow()=default;
 

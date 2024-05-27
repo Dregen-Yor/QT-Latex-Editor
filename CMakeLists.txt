@@ -11,11 +11,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(QSCINTILLA_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/lib/Qsci")
 set(QSCINTILLA_LIBRARY "${CMAKE_CURRENT_SOURCE_DIR}/lib/libqscintilla2_qt6.a")
 # message(CMAKE_CURRENT_SOURCE_DIR: ${CMAKE_CURRENT_SOURCE_DIR})
-include_directories(${QSCINTILLA_INCLUDE_DIR})
 set(KF5_DEP_VERSION "6.0.0")
 # We need some parts of the ECM CMake helpers.
 find_package(ECM ${KF5_DEP_VERSION} QUIET REQUIRED NO_MODULE)
 
+find_package(glog REQUIRED)
 # We append to the module path so modules can be overridden from the command line.
 list(APPEND CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 find_package(KF6 ${KF5_DEP_VERSION}
