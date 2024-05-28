@@ -23,7 +23,7 @@ class KFViewManager : public QSplitter {
     KFTabWidget* tab() { return m_tabWidget; }
     KFTEXMainWindow* mainwindow() { return m_mainwindow; }
    public slots:
-    void showPdf(QString file);
+    void showPdf(QPdfDocument *doc);
     void closePdf();
 
    private:

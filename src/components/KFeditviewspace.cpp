@@ -120,7 +120,7 @@ void KFTabWidget::sendFile(){
     json["filename"]=QFileInfo(file).baseName();
     json["filedata"]=QString(filecontent);
     QByteArray jsonData=QJsonDocument(json).toJson();
-    qDebug()<<QString(filecontent);
-    HttpOperate *request =new HttpOperate();
+    HttpOperate *request =new HttpOperate(m_manager);
     request->PostRequest(jsonData,QUrl("http://127.0.0.1:1503/compile"));
+
 }

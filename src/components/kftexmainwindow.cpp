@@ -39,16 +39,17 @@ void KFTEXMainWindow::setupActions(){
     a=actionCollection()
         ->addAction(KStandardAction::New, QStringLiteral("file_new"), m_viewManager->tab(), &KFTabWidget::openFile);
 
-    a->setShortcut(QKeySequence::New);
+    // a->setShortcut(QKeySequence::New);
     a->setWhatsThis(i18n("Create a new tex file"));
     a=actionCollection()
         ->addAction(KStandardAction::Open, QStringLiteral("file_open"), m_viewManager->tab(), &KFTabWidget::openFile);
-    a->setShortcut(QKeySequence::Open);
+    // a->setShortcut(QKeySequence::Open);
     a->setWhatsThis(i18n("Open an existing tex file"));
 
     a=actionCollection()
         ->addAction(KStandardAction::Save, QStringLiteral("file_save"), m_viewManager->tab(), &KFTabWidget::saveFile);
     a->setWhatsThis(i18n("Save the current tex file"));
+    a->setShortcut(QStringLiteral("Ctrl+Alt+S"));
 
     a=actionCollection()
         ->addAction(KStandardAction::Close,QStringLiteral("pdf_close"),m_viewManager,&KFViewManager::closePdf);
@@ -76,7 +77,11 @@ void KFTEXMainWindow::setupMenu(){
     m_fileMenu->addAction(actionCollection()->action(QStringLiteral("pdf_close")));
     m_fileMenu->addAction(m_fileOpenRecent);
     m_runMenu=this->menuBar()->addMenu(i18n("Run"));
-    m_runMenu->addAction(actionCollection()->action(QStringLiteral("pdf_run")));
+    run_pdf =new QAction("run",this);
+    run_pdf->setShortcut(QStringLiteral("F5"));
+    run_pdf->setIcon(QIcon::fromTheme("system-run"));
+    connect(run_pdf,&QAction::triggered,m_viewManager->tab(),&KFTabWidget::sendFile);
+    m_runMenu->addAction(run_pdf);
 }
 KFTEXMainWindow::~KFTEXMainWindow()=default;
 

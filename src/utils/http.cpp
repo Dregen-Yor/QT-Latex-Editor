@@ -5,7 +5,9 @@
 #include <QObject>
 // #include <glog/logging.h>
 
-HttpOperate::HttpOperate(){}
+HttpOperate::HttpOperate(KFViewManager* manager){
+    this->m_manager=manager;
+}
 
 void HttpOperate::PostRequest(QByteArray data,QUrl url){
     m_NetworkManager = std::make_shared<QNetworkAccessManager>();
@@ -31,11 +33,12 @@ void HttpOperate::ReplyFinshed()
 {
     if (m_Reply->error() == QNetworkReply::NoError)
     {
-        // 处理返回的数据
-        QByteArray _data = m_Reply->readAll();//读出数据
-        auto toUtf16 = QStringDecoder(QStringDecoder::Utf8);
-        QString str = toUtf16(_data);
-        qInfo()<<"_data ==> "<<str;
+        doc=new QPdfDocument(m_manager);
+        doc->load(m_Reply);
+        m_manager->showPdf(doc);
+        // QByteArray _data = m_Reply->readAll();//读出数据
+        
+        
     } else {
         // 处理错误
         qDebug()<<"error ==> "<<m_Reply->error();

@@ -42,7 +42,7 @@ class KFTEXMainWindow : public KParts::MainWindow,
     KActionMenu* documentOpenWith = nullptr;
 
     QFrame* m_centralWidget;
-
+    QAction *run_pdf;
     KFViewManager* m_viewManager = nullptr;
     KRecentFilesAction *m_fileOpenRecent = nullptr;
     void setupMenu();
