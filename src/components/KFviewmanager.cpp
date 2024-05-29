@@ -25,7 +25,6 @@ void KFViewManager::showPdf(QPdfDocument *doc){
 }
 void KFViewManager::closePdf(){
     if(m_pdfView){
-        // disconnect(m_pdfView,&QPdfView::close,this,&KFViewManager::closePdf);
         delete(m_pdfView);
         m_pdfView=nullptr;
     }

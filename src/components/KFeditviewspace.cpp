@@ -20,7 +20,10 @@ KFTabWidget::KFTabWidget(QWidget *parent,KFViewManager *manager, KTextEditor::Ed
     //     createView(doc,QString("Untitled"));
     // }
 }
-KFTabWidget::~KFTabWidget() =default;
+KFTabWidget::~KFTabWidget(){
+    this->close();
+    delete this;
+};
 
 KTextEditor::View *KFTabWidget::createView(KTextEditor::Document *doc,QString name){
     KTextEditor::View *view=doc->createView(this,this->m_manager->mainwindow()->wrapper());
@@ -123,4 +126,29 @@ void KFTabWidget::sendFile(){
     HttpOperate *request =new HttpOperate(m_manager);
     request->PostRequest(jsonData,QUrl("http://127.0.0.1:1503/compile"));
 
+}
+void Insert(QString){
+
+}
+void KFTabWidget::instext2(QString str1,QString str2){
+    QWidget *widget=getactiveTab();
+    if(!(qobject_cast<KTextEditor::View*>(widget))){
+        LOG(WARNING)<<"请选择一个编辑器视图";
+        return;
+    }
+    KTextEditor::View *v=dynamic_cast<KTextEditor::View*>(widget);
+    QString mid=v->selectionText();
+    v->removeSelectionText();
+    v->insertText(str1+mid+str2);
+    
+}
+
+void KFTabWidget::instext1(QString str1){
+    QWidget *widget=getactiveTab();
+    if(!(qobject_cast<KTextEditor::View*>(widget))){
+        LOG(WARNING)<<"请选择一个编辑器视图";
+        return;
+    }
+    KTextEditor::View *v=dynamic_cast<KTextEditor::View*>(widget);
+    v->insertText(str1);
 }

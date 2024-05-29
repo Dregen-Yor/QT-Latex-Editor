@@ -29,8 +29,6 @@ int main(int argc, char* argv[]) {
 
 
     KFTEXMainWindow w;
-    
-    // w.setStyleSheet(styleSheet);
     w.showMaximized();
     google::ShutdownGoogleLogging();
     return a.exec();

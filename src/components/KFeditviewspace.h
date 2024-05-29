@@ -43,5 +43,7 @@ public slots:
     void on_tabWidget_tabCloseRequested(int index);
     void openRecent(QUrl url);
     void sendFile();
+    void instext2(QString str1,QString str2);
+    void instext1(QString str1);
 };
 #endif
