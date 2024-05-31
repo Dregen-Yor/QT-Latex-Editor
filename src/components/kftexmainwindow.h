@@ -9,6 +9,7 @@
 #include <KTextEditor/MainWindow>
 #include <KTextEditor/Plugin>
 #include <QDomDocument>
+#include <QDialog>
 #include <QEvent>
 #include <QFrame>
 #include <QKeySequence>
@@ -21,11 +22,15 @@
 #include <QVBoxLayout>
 #include <QWidget>
 #include <KMessageBox>
+#include <QListWidget>
 #include <KAboutData>
 #include "KFviewmanager.h"
+#include "listdialog.hpp"
 #include <glog/logging.h>
+class HttpOperate;
 class KFViewManager;
 class MainWindow;
+class ListDialog;
 class KFTEXMainWindow : public KParts::MainWindow,
                         virtual public KParts::PartBase {
     Q_OBJECT
@@ -44,7 +49,7 @@ class KFTEXMainWindow : public KParts::MainWindow,
     KActionMenu* documentOpenWith = nullptr;
     QToolBar *toolbar =nullptr;
     QFrame* m_centralWidget;
-    QAction *run_pdf;
+    QAction *run_pdf,*open_remote;
     KFViewManager* m_viewManager = nullptr;
     KRecentFilesAction *m_fileOpenRecent = nullptr;
     void setupMenu();
@@ -52,7 +57,7 @@ class KFTEXMainWindow : public KParts::MainWindow,
     QMenu* m_runMenu;
     QMenu* m_AboutMenu;
     KTextEditor::Editor* m_editor = nullptr;
-
+    ListDialog *m_listw=nullptr;
     QToolButton* insert_link,*insert_photo,*insert_newpage,*textbf,*textref,*texcite,*textit,*insert_underline,*insert_sdu_beamer;
     
    private:
@@ -65,6 +70,11 @@ class KFTEXMainWindow : public KParts::MainWindow,
     void buttonClicked1(const QString &text);
     signals:
     void buttonClicked2(const QString &text1,const QString &text2);
+
+    public slots:
+    void showList();
 };
+
+
 
 #endif

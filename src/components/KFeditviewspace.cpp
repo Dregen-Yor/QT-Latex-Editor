@@ -54,7 +54,7 @@ void KFTabWidget::saveFile(){
     }
 }
 void KFTabWidget::openFile(){
-    QString fileName = QFileDialog::getOpenFileName(this->m_manager->mainwindow(), i18n("Open File"),QDir::currentPath());
+    QString fileName = QFileDialog::getOpenFileName(this->m_manager->mainwindow(), i18n("Open File"),QDir::currentPath(),QStringLiteral("Tex File(*.tex)"));
     QFileInfo fileInfo(fileName);
 
     if (!fileName.isEmpty()) {
@@ -70,7 +70,7 @@ void KFTabWidget::openFile(){
 }
 void KFTabWidget::newFile() {
     // 打开文件保存对话框
-    QString fileName = QFileDialog::getSaveFileName(this->m_manager->mainwindow(), tr("New File"), QDir::currentPath());
+    QString fileName = QFileDialog::getSaveFileName(this->m_manager->mainwindow(), tr("New File"), QDir::currentPath(),QStringLiteral("Tex File(*.tex)"));
 
     if (!fileName.isEmpty()) {
         // 创建一个新的文档

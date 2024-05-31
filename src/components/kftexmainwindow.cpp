@@ -65,6 +65,14 @@ void KFTEXMainWindow::setupActions(){
     a=actionCollection()
         ->addAction(KStandardAction::AboutKDE,QStringLiteral("about_KDE"),this);
     a->setWhatsThis(i18n("The information about KDE"));
+
+    open_remote=new QAction("打开远程文件",this);
+    open_remote->setWhatsThis(i18n("打开远程文件"));
+    open_remote->setIcon(QIcon::fromTheme("document-open"));
+    open_remote->setShortcut(QStringLiteral("Ctrl+Alt+O"));
+
+    connect(open_remote,&QAction::triggered,this,&KFTEXMainWindow::showList);
+
     insert_link =new QToolButton(this);
     QSize siz;
     siz.setWidth(40);
@@ -258,6 +266,7 @@ void KFTEXMainWindow::setupMenu(){
     m_fileMenu->addAction(actionCollection()->action(QStringLiteral("file_open")));
     m_fileMenu->addAction(actionCollection()->action(QStringLiteral("file_save")));
     m_fileMenu->addAction(actionCollection()->action(QStringLiteral("pdf_close")));
+    m_fileMenu->addAction(open_remote);
     m_fileMenu->addAction(m_fileOpenRecent);
     m_runMenu=this->menuBar()->addMenu(i18n("Run"));
     run_pdf =new QAction("run",this);
@@ -293,4 +302,17 @@ void KFTEXMainWindow::addRecentOpenedFile(const QUrl &url){
         return;
     }
     m_fileOpenRecent->addUrl(url);
+}
+
+void KFTEXMainWindow::showList(){
+
+    if(m_listw){
+        delete m_listw;
+    }
+    m_listw =new ListDialog(this);
+
+    m_listw->setMinimumHeight(800);
+    m_listw->setMinimumWidth(600);
+
+    m_listw->exec();
 }

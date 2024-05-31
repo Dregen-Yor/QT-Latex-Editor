@@ -8,6 +8,7 @@
 
 #include "KFviewmanager.h"
 #include <QPdfDocument>
+class KFViewManager;
 class KFpdfview: public QPdfView,virtual public KParts::PartBase{
     Q_OBJECT
 public:
@@ -18,5 +19,6 @@ public:
     
 private:
     QMenu *m_pMenuRD;
+    KFViewManager *m_pViewManager;
 };
 #endif

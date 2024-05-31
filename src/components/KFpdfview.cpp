@@ -1,9 +1,10 @@
 #include "KFpdfview.h"
 KFpdfview::KFpdfview(QWidget *parent,QPdfDocument *doc):QPdfView(parent){
     setDocument(doc);
+    m_pViewManager=qobject_cast<KFViewManager*>(parent);
     m_pMenuRD=new QMenu(this);
-    // actionCollection()->addAction(KStandardAction::Close,QStringLiteral("pdf_close"),this,&KFViewManager::closePdf);
-    // m_pMenuRD->addAction(actionCollection()->action(QStringLiteral("pdf_close")));
+    actionCollection()->addAction(KStandardAction::Redisplay,QStringLiteral("pdf_refresh"),this->m_pViewManager->tab(),&KFTabWidget::sendFile);
+    m_pMenuRD->addAction(actionCollection()->action(QStringLiteral("pdf_refresh")));
 }
 
 KFpdfview::~KFpdfview()=default;

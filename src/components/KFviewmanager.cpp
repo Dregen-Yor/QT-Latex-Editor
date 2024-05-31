@@ -18,6 +18,7 @@ void KFViewManager::showPdf(QPdfDocument *doc){
     if(!m_pdfView){
         m_pdfView=new KFpdfview(this,m_doc);
         m_pdfView->setPageMode(QPdfView::PageMode::MultiPage);
+        m_pdfView->setZoomMode(QPdfView::ZoomMode::FitInView);
         this->addWidget(m_pdfView);
         m_pMenuRD=new QMenu(m_pdfView);
     }
