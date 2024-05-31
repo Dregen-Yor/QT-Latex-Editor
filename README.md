@@ -10,6 +10,7 @@
 - CMake
 - QT 6.7.0
 - KDE FrameWork6
+- Glog
 
 ## 实现功能
 
